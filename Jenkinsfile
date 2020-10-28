@@ -1,18 +1,29 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven 3.6.3'
-        jdk 'jdk8'
+        maven: 'maven',
+        jdk: 'jdk8'
+    }
+    parameters {
+        booleanParam(name: "Performrelease ?", description : '', defaultValues: false)
     }
     stages {
-        stage ('Build') {
+        stage('Initialize') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+                sh ```
+                    echo "PATH ${PATH}"
+                    echo "M2_HOME ${M2_HOME}"
+                ```
             }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
     }
