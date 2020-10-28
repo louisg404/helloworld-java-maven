@@ -1,11 +1,11 @@
 pipeline {
     agent any
     tools {
-        maven 'maven',
+        maven 'maven'
         jdk 'jdk11'
     }
     parameters {
-        booleanParam(name: "Performrelease ?", description : '', defaultValues: false)
+        booleanParam(name: "Performrelease ?", description : '', defaultValue: false)
     }
     stages {
         stage('Initialize') {
